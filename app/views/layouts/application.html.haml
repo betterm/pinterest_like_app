@@ -6,7 +6,44 @@
   = javascript_include_tag 'application', 'data-turbolinks-track' => true
   = csrf_meta_tags
 %body
+  %nav.navbar.navbar-default{:role => "navigation"}
+    .container
+      / Brand and toggle get grouped for better mobile display
+      .navbar-header
+        %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        %a.navbar-brand{:href => root_path} Pin App
+      / Collect the nav links, forms, and other content for toggling
+      #bs-example-navbar-collapse-1.collapse.navbar-collapse
+        - if user_signed_in?
+          %ul.nav.navbar-nav.navbar-right
+            %li
+              = link_to('Logout', destroy_user_session_path, method: :delete)
+        - else
+          %ul.nav.navbar-nav.navbar-right
+            %li
+              = link_to('Login', new_user_session_path)
+            %li
+              = link_to('Sign Up', new_user_registration_path)
+        %ul.nav.navbar-nav.navbar-right
+          %li.active
+            %a{:href => new_pin_path} New Pin
+          %li
+            %a{:href => edit_user_registration_path } Account
+        %form.navbar-form.navbar-right{:role => "search"}
+          .form-group
+            %input.form-control{:placeholder => "Search", :type => "text"}
+          %button.btn.btn-default{:type => "submit"} Submit
+
+
+          -#/-if user_signed_in?
+          -#  /= link_to "New Pin", new_pin_path
+          -#  /= link_to "Account", edit_user_registration_path
+          -#  /= link_to "Sign out", destroy_user_session_path, method: :delete
+.container
   - flash.each do |name, msg|
     = content_tag :div, msg, class: "alert alert-info"
   =yield
-
